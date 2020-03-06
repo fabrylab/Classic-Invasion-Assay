@@ -8,22 +8,21 @@ import matplotlib.pyplot as plt
 import os
 from collections import defaultdict
 
-# Insert key facts here
+# Insert key facts here ------------------------------------------------------------
+
 celltype = 'U87'
 cond = 'Alginate'
-img_file_name = 'ce'
 # Insert path of cell-type folder here
-folder=r'H:\Experiment_data\B01_AnWi_Invasion_2020-01-31\U87'
+output_folder=r'H:\Experiment_data\B01_AnWi_Invasion_2020-01-31\U87'
+
+#-----------------------------------------------------------------------------------
 
 
-
-
+img_file_name = celltype + '-' + cond + '.png'
 data = defaultdict(list)
 dates = []
-dist_to_gel=20  # in um
-z_slice_thickness=5*1.33
-# Searches for the indices txt file
-files = glob(folder+'/*/*/' + celltype + '_' + cond + '*.txt')
+dist_to_gel=20  # in um (=um imaged above the gel surface)
+z_slice_thickness=5*1.33    # in um
 
 old_date = ''
 old_pos = ''
@@ -74,8 +73,6 @@ for cond, files in files.items():
 
 
 
-
-
 colors = [p['color'] for p in plt.rcParams['axes.prop_cycle']]
 
 for i,(cond, data_list) in enumerate(data.items()):
@@ -108,6 +105,6 @@ plt.xlabel('Probability of (Invasion depth$\mathregular{\geq}$D)')
 plt.legend(loc='lower left')
 plt.tight_layout()
 #plt.show()
-plt.savefig(os.path.join("H:\Experiment_data\B01_AnWi_Invasion_2020-03-04", 'U87-all.png'), dpi=200)
+plt.savefig(os.path.join(output_folder, img_file_name), dpi=300)
 
 ### merging all
