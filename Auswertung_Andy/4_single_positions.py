@@ -11,10 +11,10 @@ from collections import defaultdict
 
 # Insert key facts here ------------------------------------------------------------
 
-celltype = 'U87'
-cond = 'Alginate'
+celltype = 'HTB-26'
+cond = 'Ctrl'
 # Insert path of cell-type folder here
-output_folder=r'H:\Experiment_data\B01_AnWi_Invasion_2020-01-31\U87'
+folder=r'H:\Experiment_data\B01_AnWi_Invasion_2020-03-04'
 
 #-----------------------------------------------------------------------------------
 
@@ -31,18 +31,13 @@ old_date = ''
 old_pos = ''
 #files2=["a.txt","b.txt"]
 #files=[os.path.join(folder,x) for x in files2]
-files = [r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_U87\CNTRL\pos00\xyz_positions.txt",
-         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_U87\CNTRL\pos01\xyz_positions.txt",
-         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_U87\CNTRL\pos02\xyz_positions.txt",
-         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_U87\CNTRL\pos03\xyz_positions.txt",
-         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_U87\CNTRL\pos04\xyz_positions.txt",
-         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_U87\CNTRL\pos05\xyz_positions.txt",
-         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_U87\CNTRL\pos06\xyz_positions.txt",
-         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_U87\CNTRL\pos07\xyz_positions.txt",
-         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_U87\CNTRL\pos08\xyz_positions.txt"]
+files = [r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_HTB26\Ctrl\pos00\xyz_positions.txt",
+         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_HTB26\Ctrl\pos01\xyz_positions.txt",
+         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_HTB26\Ctrl\pos02\xyz_positions.txt",
+         r"H:\Experiment_data\B01_AnWi_Invasion_2020-03-04\Platte2_HTB26\Ctrl\pos03\xyz_positions.txt"]
 
 
-lables=["pos00", "pos01", "pos02", "pos03", "pos04", "pos05", "pos05", "pos05", "pos05", "pos05", "pos05", "pos05", "pos05", "pos05"]
+lables=["pos00", "pos01", "pos02", "pos03", "pos04", "pos05", "pos06", "pos07", "pos08", "pos09"]
 
 for f in files:
     raw=[]
@@ -61,11 +56,11 @@ for f in files:
 
 colors = [p['color'] for p in plt.rcParams['axes.prop_cycle']]
 
-for i,(data, label) in enumerate(zip(data,lables)):
-    data=-(data - 100) * z_slice_thickness
-    p = np.linspace(1, 0, len(data))
+for i,(d, label) in enumerate(zip(data,lables)):
+    d = -(d - 100) * z_slice_thickness
+    p = np.linspace(1, 0, len(d))
     ps = p * 100 # percentiles
-    pooled_ps = np.array([np.percentile(data, i, interpolation="midpoint") for i in ps])
+    pooled_ps = np.array([np.percentile(d, i, interpolation="nearest") for i in ps])
     plt.plot(p[::-1], pooled_ps, label=label, color=colors[i])
 
 plt.axhline(0, c='k', lw=1)
@@ -82,6 +77,6 @@ plt.xlabel('Probability of (Invasion depth$\mathregular{\geq}$D)')
 plt.legend(loc='lower left')
 plt.tight_layout()
 #plt.show()
-pplt.savefig(os.path.join(output_folder, img_file_name), dpi=300)
+plt.savefig(os.path.join(folder, img_file_name), dpi=300)
 
 ### merging all
